@@ -1,0 +1,54 @@
+🧩 Basic Kubernetes Interview Questions (1–12)
+1)What is Kubernetes?
+ 💡 Hint: Container orchestration, automates deployment & scaling.
+2)What is a Pod?
+ 💡 Hint: Smallest deployable unit, holds one or more containers.
+3)What is a Deployment?
+ 💡 Hint: Ensures desired replicas & rollout strategy.
+4)What is a Service in Kubernetes?
+ 💡 Hint: Stable networking layer for Pods (ClusterIP, NodePort, LoadBalancer).
+5)What is kube-apiserver?
+ 💡 Hint: Front-end for the control plane; handles all cluster communication.
+6)What's the purpose of etcd?
+ 💡 Hint: Stores cluster state.
+7)Difference between ReplicaSet and Deployment?
+ 💡 Hint: ReplicaSet = maintains pod count; Deployment = manages rollout.
+8)What is a Namespace?
+ 💡 Hint: Logical separation inside the cluster.
+9)What is kubectl?
+ 💡 Hint: Command-line tool to interact with Kubernetes cluster.
+10)What is a ConfigMap?
+ 💡 Hint: External configuration (non-secret data).
+11)What is a Secret?
+ 💡 Hint: Stores sensitive data base64-encoded.
+12)What is a Node?
+ 💡 Hint: Worker machine where pods are scheduled.
+
+🧩 Medium-Level Kubernetes Interview Questions (13–25)
+13)What is a DaemonSet?
+ 💡 Hint: Ensures a pod runs on every node.
+14)What is StatefulSet used for?
+ 💡 Hint: For stateful apps needing stable identity/storage.
+15)What is Ingress?
+ 💡 Hint: HTTP/HTTPS routing into the cluster.
+16)Difference between Requests and Limits?
+ 💡 Hint: Requests = guaranteed; Limits = max allowed.
+17)How does Kubernetes perform health checks?
+ 💡 Hint: Liveness & readiness probes.
+18)What is the Kubernetes Scheduler?
+ 💡 Hint: Decides which node a pod should run on.
+19)How do you view logs of a pod?
+ 💡 Hint: kubectl logs podname
+20)What is the role of kubelet?
+ 💡 Hint: Ensures containers are running on node.
+21)What is a ServiceAccount?
+ 💡 Hint: Provides identity/credentials for pods.
+22)How do you debug a failing pod?
+ 💡 Hint: Describe pod → logs → exec → events.
+23)What is a PV and PVC?
+ 💡 Hint: PersistentVolume = storage; PVC = request for storage.
+24)How does Kubernetes ensure desired state?
+ 💡 Hint: Control loops & reconciliation.
+25)Difference between Docker and containerd in Kubernetes?
+ 💡 Hint: containerd = CRI compatible runtime; Docker = not used natively now.
+
