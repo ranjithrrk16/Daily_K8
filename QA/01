@@ -1,0 +1,29 @@
+1.Explain Kubernetes cluster architecture?
+2.How various components of Kubernetes interact when you run kubectl apply(pod)
+3.what is the purpose of services in Kubernetes?
+4.Why is hardcoding pod IP communication is a bad practice?
+5.what are the types of services in Kubernetes?
+6.what are labels and selectors in Kubernetes?
+7.what would you recommend NodPort service or Load balancer type service and why
+8.How kubernetes services are related to Kube Proxy?
+9.what is the disadvantage of load balancer service type?
+10.what is a headless service in Kubernetes and when did you use it?
+11.can a pod access service in different namespace, if yes, how?
+12.Explain how you can restrict access to db pod to only one app in the namespace?
+13.Explain the deployment strategy that you follow in your organization?
+14.Explain the rollback strategy that you follow in your organization?
+15.Design a solution to avoid rollbacks
+16.Explain the deployment strategies that you used in the past?
+17.Explain the role of CoreDNS in Kubernetes
+18.A Devops engineer tainted a node as “Noschedule”. Can you still schedule a pod?
+1. Pod is stuck in crashloopbackoff, what steps will you take?
+2. What is the difference between liveness and readiness probes?
+3. Explain the difference between Ingress and LB service type?
+4. Your app works with cluster IP but fails with Ingress, How do you troubleshoot it
+5. Why do I need to setup Ingress controller after creating ingress?
+6. We have an in-house load balancer, can we use Ingress with our load balancer?
+7. Your deployment has replicas:3, but only 1 pod is running. What could be wrong?
+8. Your pod mounts a configmap, but changes to the configmap are not reflected?
+9. Explain how Node Affinity works and when will you use it?
+10. What is the difference between Node Affinity and Node Lable Selector?
+11. What is container runtime in Kubernetes?
