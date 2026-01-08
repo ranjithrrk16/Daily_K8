@@ -1,43 +1,113 @@
 1.Explain Kubernetes cluster architecture?
-2.How various components of Kubernetes interact when you run kubectl apply(pod)
+A.Kubernetes cluster architecture consists of a **control plane** that manages the cluster (API server, scheduler, controllers, etcd) and **worker nodes** that run application workloads.
+The control plane maintains the desired state, while worker nodes execute pods and handle networking and container runtime.
+
+2.How various components of Kubernetes interact when you run kubectl apply(pod)?
+A.`kubectl apply` sends the Pod spec to the API Server, which stores it in etcd, the Scheduler assigns a node, and the kubelet on that node creates the Pod using the container runtime and updates status back to the API Server.
+
 3.what is the purpose of services in Kubernetes?
+A.Services in Kubernetes provide a **stable network endpoint and load balancing** to reliably expose and access a set of Pods.
+
 4.Why is hardcoding pod IP communication is a bad practice?
+A.Hardcoding Pod IPs is bad practice because Pod IPs are **ephemeral and change when Pods are recreated**, breaking communication and reliability.
+
 5.what are the types of services in Kubernetes?
+A.The main types of Kubernetes Services are **ClusterIP, NodePort, LoadBalancer, and ExternalName**.
+
 6.what are labels and selectors in Kubernetes?
-7.what would you recommend NodPort service or Load balancer type service and why
+A.Labels are **key–value metadata** attached to Kubernetes objects, and selectors are used to **identify and group objects based on those labels**.
+
+7.what would you recommend NodPort service or Load balancer type service and why?
+A.I would recommend a **LoadBalancer service** because it provides a **production-ready, scalable, and externally accessible endpoint with built-in load balancing**, unlike NodePort which is mainly for simple or testing scenarios.
+
 8.How kubernetes services are related to Kube Proxy?
+A.Kubernetes Services rely on **kube-proxy** to implement service networking by setting up **IP tables or IPVS rules** that route traffic to the correct Pods.
+
 9.what is the disadvantage of load balancer service type?
+A.The disadvantage of a LoadBalancer service is that it **incurs extra cost and depends on cloud provider support**, making it less ideal for on-prem or small-scale setups.
+
 10.what is a headless service in Kubernetes and when did you use it?
+A.A headless service **has no cluster IP** and is used when you need **direct Pod access or service discovery** without load balancing.
+
 11.can a pod access service in different namespace, if yes, how?
+A.Yes, a Pod can access a Service in a different namespace using the **fully qualified domain name (FQDN): `<service-name>.<namespace>.svc.cluster.local`**.
+
 12.Explain how you can restrict access to db pod to only one app in the namespace?
+A.You can restrict access by using **NetworkPolicies** to allow traffic to the DB Pod only from the specific app’s Pods in the namespace.
+
 13.Explain the deployment strategy that you follow in your organization?
+A.We follow a **Rolling Update strategy** to gradually update Pods with zero downtime while maintaining application availability.
+
 14.Explain the rollback strategy that you follow in your organization?
-15.Design a solution to avoid rollbacks
+A.We follow a **Kubernetes Deployment rollback strategy**, where if a new version fails, we use the Deployment’s **revision history** to automatically or manually revert to the previous stable version of Pods.
+
+15.Design a solution to avoid rollbacks ?
+A.Use a **canary deployment with health checks and gradual traffic shifting** to validate new versions before full rollout, minimizing the need for rollbacks.
+
 16.Explain the deployment strategies that you used in the past?
+A.I have used **Rolling Update, Canary, Blue-Green, and Recreate** deployment strategies depending on downtime tolerance and risk mitigation.
+
 17.Explain the role of CoreDNS in Kubernetes
+A.CoreDNS in Kubernetes **provides DNS-based service discovery**, allowing Pods to resolve **Service names to cluster IPs**, enabling seamless communication between services within the cluster.
+
 18.A Devops engineer tainted a node as “Noschedule”. Can you still schedule a pod?
+A.Yes, you can still schedule a pod on a **NoSchedule-tainted node** by adding a **toleration** in the Pod spec that matches the node’s taint.
+
 1. Pod is stuck in crashloopbackoff, what steps will you take?
+A.Check Pod events with `kubectl describe`, inspect logs with `kubectl logs --previous`, identify the cause (crash, config, or resources), fix it, and let Kubernetes recreate the Pod. (application crash, misconfiguration, missing secrets/configs, or resource limits)
+
 2. What is the difference between liveness and readiness probes?
+A.**Liveness probes** check if a container is alive and restart it if not, while **readiness probes** check if a container is ready to serve traffic without restarting it.
+
 3. Explain the difference between Ingress and LB service type?
+A.An **Ingress** manages **HTTP/HTTPS routing and path-based traffic** within the cluster, while a **LoadBalancer service** exposes a service externally with a **dedicated IP and basic load balancing**.
+
 4. Your app works with cluster IP but fails with Ingress, How do you troubleshoot it
+A.Check **Ingress resource, controller status, backend service/port, DNS/host, and controller logs** to identify routing or configuration issues.
+
 5. Why do I need to setup Ingress controller after creating ingress?
+A.An Ingress controller is needed to **actually process Ingress resources and route external traffic to services**, as Ingress alone is just a specification.
+
 6. We have an in-house load balancer, can we use Ingress with our load balancer?
+A.Yes, you can use Ingress with an in-house load balancer by **configuring it to forward traffic to the Ingress controller** in the cluster.
+
 7. Your deployment has replicas:3, but only 1 pod is running. What could be wrong?
+A.Possible issues include **insufficient resources, node taints, scheduling failures, image pull errors, or failing liveness/readiness probes** preventing Pods from running.
+
 8. Your pod mounts a configmap, but changes to the configmap are not reflected?
+A.Changes to a ConfigMap are **not automatically updated in running Pods**; you need to **restart the Pod or use a projected volume with `subPath`/`configMap` reload mechanism** to reflect updates.
+
 9. Explain how Node Affinity works and when will you use it?
+A. Node Affinity **schedules Pods onto nodes based on labels**, and is used to **control placement for performance, compliance, or hardware requirements**.
+
 10. What is the difference between Node Affinity and Node Lable Selector?
+A.Node Affinity is a **flexible, rule-based scheduling preference**, while a Node Label Selector is a **basic, exact-match constraint** for Pod placement.
+
 11. What is container runtime in Kubernetes?
+A.A container runtime in Kubernetes is **software that runs and manages containers on nodes**, like Docker or containerd.
+
+Q.reasons of pods pending status.
+A.Pods remain in **Pending** status when Kubernetes cannot schedule them onto a node. 
+Common reasons include **insufficient resources, node taints/affinity conflicts, unsatisfied node selectors, or unbound persistent volumes**.
+
 Q: You deleted a deployment, but the pods are still running. How?
 A: The associated ReplicaSet wouldn't have been deleted. If the Deployment was paused or not cleaned up properly, the ReplicaSet would continue maintaining the pods.
+
 Q: A pod with no memory limit defined is still getting OOMKilled. What could be the reason?
 A: Without a memory limit, the pod gets BestEffort QoS and can over consume node memory. If the node runs out, the kubelet OOMKills such pods first to reclaim memory.
+
 Q: A HPA is in place, but even under load, replicas remain at 1. What could cause this?
 A: The metrics server might not be reporting CPU or memory usage properly. Without metric data, the HPA controller would not initiate any scale out actions.
+
 Q: A Deployment was rolled out, but pods are not created. What should be checked first?
 A: The Deployment might have failed admission due to validation or mutation webhooks. Events or kubectl describe would show webhook related errors that blocked pod creation.
+
 Q: You exposed a pod via NodePort, but it's still unreachable externally. What’s likely missing?
 A: The node level firewall or cloud NACL might be blocking the assigned port. Even though Kubernetes exposes it, the OS would still drop the traffic if not allowed.
+
 Q: A container image is updated in the registry, but pods are still pulling the old image. Why?
 A: The deployment might be using an immutable image digest or relying on the default imagePullPolicy: IfNotPresent. In that case, existing nodes would cache the image and avoid pulling the new version.
+
 Q: You use emptyDir for temporary data, but after a pod restart, all the data is gone. Why?
 A: That’s expected. emptyDir would be wiped whenever the pod is terminated or rescheduled since it’s tied to the pod lifecycle.
+
