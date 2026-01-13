@@ -3,8 +3,9 @@
 <img width="720" height="898" alt="image" src="https://github.com/user-attachments/assets/b1f5e421-db6c-4943-9cf6-ea23d0915540" />
 
 Focus On:
-Pods, Services, Deployments
-ConfigMaps & Secrets
-Scaling & self-healing
-Ingress
+
+Pods, Services, Deployments,
+ConfigMaps & Secrets,
+Scaling & self-healing,
+Ingress,
 Helm basics
